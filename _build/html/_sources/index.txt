@@ -1,20 +1,19 @@
-.. LLVM教程 documentation master file, created by
-   sphinx-quickstart on Fri Mar 26 10:29:35 2010.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. include:: include/substitution.rst
 
-Welcome to LLVM教程's documentation!
-==================================
+万花筒：用LLVM来实现一门语言
+============================
 
-Contents:
+:作者: `Chris Lattner <sabre@nondot.org>`_
+:译者: `连城 <rhythm.mail@gmail.com>`_
+:最后更新: |date|
+
+目录：
 
 .. toctree::
    :maxdepth: 2
 
-Indices and tables
-==================
+   chapter-1.rst
+   chapter-2.rst
+   chapter-3.rst
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+.. vim:ft=rst ts=4 sw=4 fenc=utf-8 enc=utf-8 et

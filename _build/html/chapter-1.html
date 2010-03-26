@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>第一章 教程介绍与词法分析器 &mdash; LLVM教程</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="LLVM教程" href="index.html" />
+    <link rel="next" title="第二章 实现语法分析器和AST" href="chapter-2.html" />
+    <link rel="prev" title="万花筒：用LLVM来实现一门语言" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="chapter-2.html" title="第二章 实现语法分析器和AST"
+             accesskey="N">下一页</a></li>
+        <li class="right" >
+          <a href="index.html" title="万花筒：用LLVM来实现一门语言"
+             accesskey="P">上一页</a> |</li>
+        <li><a href="index.html">LLVM教程</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>第一章 教程介绍与词法分析器<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p><a class="reference external" href="http://llvm.org/docs/tutorial/LangImpl1.html">本章原文</a></p>
+<div class="section" id="id3">
+<h2>教程介绍<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id4">
+<h2>基础语言<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id5">
+<h2>词法分析器<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">內容目录</a></h3>
+            <ul>
+<li><a class="reference external" href="">第一章 教程介绍与词法分析器</a><ul>
+<li><a class="reference external" href="#id3">教程介绍</a></li>
+<li><a class="reference external" href="#id4">基础语言</a></li>
+<li><a class="reference external" href="#id5">词法分析器</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>上一个主题</h4>
+            <p class="topless"><a href="index.html"
+                                  title="上一章">万花筒：用LLVM来实现一门语言</a></p>
+            <h4>下一个主题</h4>
+            <p class="topless"><a href="chapter-2.html"
+                                  title="下一章">第二章 实现语法分析器和AST</a></p>
+            <h3>本页</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/chapter-1.txt"
+                     rel="nofollow">显示源代码</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>快速搜索</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="搜索" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              输入相关的模块，术语，类或者函数名称进行搜索
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="chapter-2.html" title="第二章 实现语法分析器和AST"
+             >下一页</a></li>
+        <li class="right" >
+          <a href="index.html" title="万花筒：用LLVM来实现一门语言"
+             >上一页</a> |</li>
+        <li><a href="index.html">LLVM教程</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; 版权所有 2010, 连城.
+      最后更新日期是 2010-03-26 16:39:34.
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-9251867-2");
+pageTracker._setDomainName(".liancheng.info");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</html>

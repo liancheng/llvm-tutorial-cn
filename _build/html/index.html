@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to LLVM教程’s documentation! &mdash; LLVM教程 v1.0.0.0 documentation</title>
+    <title>万花筒：用LLVM来实现一门语言 &mdash; LLVM教程</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -19,16 +19,17 @@
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="LLVM教程 v1.0.0.0 documentation" href="" /> 
+    <link rel="top" title="LLVM教程" href="" />
+    <link rel="next" title="第一章 教程介绍与词法分析器" href="chapter-1.html" /> 
   </head>
   <body>
     <div class="related">
-      <h3>Navigation</h3>
+      <h3>导航</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li><a href="">LLVM教程 v1.0.0.0 documentation</a> &raquo;</li> 
+          <a href="chapter-1.html" title="第一章 教程介绍与词法分析器"
+             accesskey="N">下一页</a></li>
+        <li><a href="">LLVM教程</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -37,18 +38,48 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-llvm-s-documentation">
-<h1>Welcome to LLVM教程&#8217;s documentation!<a class="headerlink" href="#welcome-to-llvm-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<ul class="simple">
+  <div class="section" id="llvm">
+<h1>万花筒：用LLVM来实现一门语言<a class="headerlink" href="#llvm" title="永久链接至标题">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">作者:</th><td class="field-body"><a class="reference external" href="mailto:sabre&#37;&#52;&#48;nondot&#46;org">Chris Lattner</a></td>
+</tr>
+<tr class="field"><th class="field-name">译者:</th><td class="field-body"><a class="reference external" href="mailto:rhythm&#46;mail&#37;&#52;&#48;gmail&#46;com">连城</a></td>
+</tr>
+<tr class="field"><th class="field-name">最后更新:</th><td class="field-body">2010-03-26 16:33</td>
+</tr>
+</tbody>
+</table>
+<p>目录：</p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="chapter-1.html">第一章 教程介绍与词法分析器</a><ul>
+<li class="toctree-l2"><a class="reference external" href="chapter-1.html#id3">教程介绍</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-1.html#id4">基础语言</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-1.html#id5">词法分析器</a></li>
 </ul>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference external" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference external" href="modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference external" href="search.html"><em>Search Page</em></a></li>
+</li>
+<li class="toctree-l1"><a class="reference external" href="chapter-2.html">第二章 实现语法分析器和AST</a><ul>
+<li class="toctree-l2"><a class="reference external" href="chapter-2.html#id2">第二章介绍</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-2.html#id3">抽象语法树（AST）</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-2.html#id4">语法分析器基础</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-2.html#id5">解析基本表达式</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-2.html#id6">解析二元表达式</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-2.html#id7">解析其余内容</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-2.html#id8">驱动代码</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-2.html#id9">结论</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-2.html#id10">源码</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="chapter-3.html">第三章 生成LLVM IR代码</a><ul>
+<li class="toctree-l2"><a class="reference external" href="chapter-3.html#id2">第三章介绍</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-3.html#id3">生成表达式代码</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-3.html#id4">生成函数代码</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-3.html#id5">驱动代码的修改及结语</a></li>
+<li class="toctree-l2"><a class="reference external" href="chapter-3.html#id6">源码</a></li>
+</ul>
+</li>
 </ul>
 </div>
 
@@ -58,29 +89,24 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <h3><a href="">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href="">Welcome to LLVM教程&#8217;s documentation!</a><ul>
-</ul>
-</li>
-<li><a class="reference external" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-
-            <h3>This Page</h3>
+            <h4>下一个主题</h4>
+            <p class="topless"><a href="chapter-1.html"
+                                  title="下一章">第一章 教程介绍与词法分析器</a></p>
+            <h3>本页</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/index.txt"
-                     rel="nofollow">Show Source</a></li>
+                     rel="nofollow">显示源代码</a></li>
             </ul>
           <div id="searchbox" style="display: none">
-            <h3>Quick search</h3>
+            <h3>快速搜索</h3>
               <form class="search" action="search.html" method="get">
                 <input type="text" name="q" size="18" />
-                <input type="submit" value="Go" />
+                <input type="submit" value="搜索" />
                 <input type="hidden" name="check_keywords" value="yes" />
                 <input type="hidden" name="area" value="default" />
               </form>
               <p class="searchtip" style="font-size: 90%">
-              Enter search terms or a module, class or function name.
+              输入相关的模块，术语，类或者函数名称进行搜索
               </p>
           </div>
           <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -89,17 +115,28 @@
       <div class="clearer"></div>
     </div>
     <div class="related">
-      <h3>Navigation</h3>
+      <h3>导航</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li><a href="">LLVM教程 v1.0.0.0 documentation</a> &raquo;</li> 
+          <a href="chapter-1.html" title="第一章 教程介绍与词法分析器"
+             >下一页</a></li>
+        <li><a href="">LLVM教程</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-      &copy; Copyright 2010, 连城.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+      &copy; 版权所有 2010, 连城.
+      最后更新日期是 2010-03-26 16:40:05.
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
     </div>
   </body>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-9251867-2");
+pageTracker._setDomainName(".liancheng.info");
+pageTracker._trackPageview();
+} catch(err) {}</script>
 </html>

@@ -12,7 +12,9 @@ PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-.PHONY: help clean html dirhtml pickle json htmlhelp qthelp latex changes linkcheck doctest
+.PHONY: default help clean html dirhtml pickle json htmlhelp qthelp latex changes linkcheck doctest
+
+default: html
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
