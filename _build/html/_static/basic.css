@@ -120,7 +120,7 @@ a.biglink {
 }
 
 span.linkdescr {
-    font-style: italic;
+    font-style: normal;
     padding-top: 5px;
     font-size: 90%;
 }
@@ -319,7 +319,7 @@ dl.glossary dt {
 }
 
 .versionmodified {
-    font-style: italic;
+    font-style: normal;
 }
 
 .system-message {

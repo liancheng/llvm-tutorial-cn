@@ -1,7 +1,7 @@
 .. include:: include/substitution.rst
 
-万花筒：用LLVM来实现一门语言
-============================
+Kaleidoscope：用LLVM开发新语言
+==============================
 
 :作者: `Chris Lattner <sabre@nondot.org>`_
 :译者: `连城 <rhythm.mail@gmail.com>`_

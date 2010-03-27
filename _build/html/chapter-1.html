@@ -21,7 +21,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="LLVM教程" href="index.html" />
     <link rel="next" title="第二章 实现语法分析器和AST" href="chapter-2.html" />
-    <link rel="prev" title="万花筒：用LLVM来实现一门语言" href="index.html" /> 
+    <link rel="prev" title="Kaleidoscope：用LLVM开发新语言" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -31,7 +31,7 @@
           <a href="chapter-2.html" title="第二章 实现语法分析器和AST"
              accesskey="N">下一页</a></li>
         <li class="right" >
-          <a href="index.html" title="万花筒：用LLVM来实现一门语言"
+          <a href="index.html" title="Kaleidoscope：用LLVM开发新语言"
              accesskey="P">上一页</a> |</li>
         <li><a href="index.html">LLVM教程</a> &raquo;</li> 
       </ul>
@@ -42,11 +42,19 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="id1">
-<h1>第一章 教程介绍与词法分析器<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+  <div class="section" id="chapter-1">
+<span id="id1"></span><h1>第一章 教程介绍与词法分析器<a class="headerlink" href="#chapter-1" title="永久链接至标题">¶</a></h1>
 <p><a class="reference external" href="http://llvm.org/docs/tutorial/LangImpl1.html">本章原文</a></p>
 <div class="section" id="id3">
 <h2>教程介绍<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>欢迎来到本教程——“用LLVM开发新语言”。本教程详细描述了一门简单语言的实现过程，同时也展示了这个过程是多么的简单和有趣。本教程将会带您起步，同时协助您构建一个可用以扩展成其他语言框架。教程中的代码可以作为尝试LLVM中其他相关功能的试验田。</p>
+<p>本教程的目的在于渐进地揭示我们的语言，详述它的构建过程。期间我们将广泛覆盖有关语言设计和LLVM用法的大量问题。我们会沿途展示和阐述相关的代码，让你不至被大量的细节弄得晕头转向。</p>
+<p>得提前说明的是，本教程教授的是编译器技术和LLVM，<strong>不是</strong>健全的、现代化的软件工程原则。在实际操作中，这意味着我们将走一些捷径以简化阐述。比如代码中会有内存泄漏、到处是全局变量、不会用到visitor等良好的模式等等……一切从简。如果您打算深究这些代码以作为未来项目的基础，填补这些缺陷也并不是什么难事。</p>
+<p>我对教程内容按章节进行了组织，如果您对某些内容很熟悉或不感兴趣便可直接跳过。教程结构如下：</p>
+<ul class="simple">
+<li><a class="reference external" href=""><em>第一章</em></a>：<strong>Kaleidoscope语言的结构，以及词法解析器的定义</strong>——说明我们想要做些什么以及希望新语言具备的功能。为了最大限度地令这份教程易于理解和修改，我们选用C++而不使用任何的词法和语法分析器的生成器。当然LLVM可以很好地与这些工具协作，如果愿意你大可选择一种来用。</li>
+<li><a class="reference external" href="chapter-2.html"><em>第二章</em></a>：<strong>实现语法分析器和AST</strong>——词法分析器到位后，我们便可以开始讨论语法分析技术和基本的AST构建。</li>
+</ul>
 </div>
 <div class="section" id="id4">
 <h2>基础语言<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
@@ -74,7 +82,7 @@
 
             <h4>上一个主题</h4>
             <p class="topless"><a href="index.html"
-                                  title="上一章">万花筒：用LLVM来实现一门语言</a></p>
+                                  title="上一章">Kaleidoscope：用LLVM开发新语言</a></p>
             <h4>下一个主题</h4>
             <p class="topless"><a href="chapter-2.html"
                                   title="下一章">第二章 实现语法分析器和AST</a></p>
@@ -107,14 +115,14 @@
           <a href="chapter-2.html" title="第二章 实现语法分析器和AST"
              >下一页</a></li>
         <li class="right" >
-          <a href="index.html" title="万花筒：用LLVM来实现一门语言"
+          <a href="index.html" title="Kaleidoscope：用LLVM开发新语言"
              >上一页</a> |</li>
         <li><a href="index.html">LLVM教程</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
       &copy; 版权所有 2010, 连城.
-      最后更新日期是 2010-03-26 16:39:34.
+      最后更新日期是 2010-03-28 01:05:05.
       使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
     </div>
   </body>
