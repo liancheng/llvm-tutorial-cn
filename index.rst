@@ -6,6 +6,13 @@ Kaleidoscope：用LLVM开发新语言
 :作者: `Chris Lattner <sabre@nondot.org>`_
 :译者: `连城 <rhythm.mail@gmail.com>`_
 :最后更新: |date|
+:许可协议:
+
+    本文采用\ `知识共享“署名、非商业性使用、禁止演绎”2.5中国大陆许可协议`__\ （\ `全文`__\ ）进行许可。
+
+__ http://creativecommons.org/licenses/by-nc-nd/2.5/cn/
+__ http://creativecommons.org/licenses/by-nc-nd/2.5/cn/legalcode
+
 
 目录：
 
@@ -15,5 +22,7 @@ Kaleidoscope：用LLVM开发新语言
    chapter-1.rst
    chapter-2.rst
    chapter-3.rst
+
+.. image:: _static/cc.png 
 
 .. vim:ft=rst ts=4 sw=4 fenc=utf-8 enc=utf-8 et

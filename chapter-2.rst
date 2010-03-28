@@ -9,6 +9,16 @@ __ http://llvm.org/docs/tutorial/LangImpl2.html
 第二章介绍
 ==========
 
+欢迎来到“用LLVM开发新语言”教程的第二章。本章将介绍如何使用在第一章中打造的词法分析器来为我们的Kaleidoscope语言构建一个完整的\ `语法解析器`__\ 。准备好语法解析器后，我们便能够定义和构建\ `抽象语法树`__\ （AST，Abstract Syntax Tree）了。
+
+__ http://en.wikipedia.org/wiki/Parsing
+__ http://en.wikipedia.org/wiki/Abstract_syntax_tree
+
+我们要打造的语法分析器将混合使用\ `递归下降解析法`__\ 和\ `算符优先级解析法`__\ 来解析Kaleidoscope语言（后者用于解析二元表达式而前者解析其余内容）。在开始解析工作之前，让我们先来讨论一下解析过程的输出：抽象语法树。
+
+__ http://en.wikipedia.org/wiki/Recursive_descent_parser
+__ http://en.wikipedia.org/wiki/Operator-precedence_parser
+
 抽象语法树（AST）
 =================
 
@@ -37,4 +47,4 @@ __ http://llvm.org/docs/tutorial/LangImpl2.html
 
 .. include:: include/chapter-2-code.rst
 
-.. vim:ft=rst ts=4 sw=4 fenc=utf-8 enc=utf-8 et
+.. vim:ft=rst ts=4 sw=4 fenc=utf-8 enc=utf-8 et wrap

@@ -47,30 +47,32 @@
 <p><a class="reference external" href="http://llvm.org/docs/tutorial/LangImpl2.html">本章原文</a></p>
 <div class="section" id="id2">
 <h2>第二章介绍<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
-</div>
-<div class="section" id="id3">
-<h2>抽象语法树（AST）<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
-</div>
-<div class="section" id="id4">
-<h2>语法分析器基础<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
-</div>
-<div class="section" id="id5">
-<h2>解析基本表达式<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
-</div>
-<div class="section" id="id6">
-<h2>解析二元表达式<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p>欢迎来到“用LLVM开发新语言”教程的第二章。本章将介绍如何使用在第一章中打造的词法分析器来为我们的Kaleidoscope语言构建一个完整的<a class="reference external" href="http://en.wikipedia.org/wiki/Parsing">语法解析器</a>。准备好语法解析器后，我们便能够定义和构建<a class="reference external" href="http://en.wikipedia.org/wiki/Abstract_syntax_tree">抽象语法树</a>（AST，Abstract Syntax Tree）了。</p>
+<p>我们要打造的语法分析器将混合使用<a class="reference external" href="http://en.wikipedia.org/wiki/Recursive_descent_parser">递归下降解析法</a>和<a class="reference external" href="http://en.wikipedia.org/wiki/Operator-precedence_parser">算符优先级解析法</a>来解析Kaleidoscope语言（后者用于解析二元表达式而前者解析其余内容）。在开始解析工作之前，让我们先来讨论一下解析过程的输出：抽象语法树。</p>
 </div>
 <div class="section" id="id7">
-<h2>解析其余内容<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<h2>抽象语法树（AST）<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
 </div>
 <div class="section" id="id8">
-<h2>驱动代码<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<h2>语法分析器基础<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
 </div>
 <div class="section" id="id9">
-<h2>结论<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<h2>解析基本表达式<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id10">
+<h2>解析二元表达式<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id11">
+<h2>解析其余内容<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id12">
+<h2>驱动代码<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id13">
+<h2>结论<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h2>
 </div>
 <div class="section" id="chapter-2-code">
-<span id="id10"></span><h2>完整源码<a class="headerlink" href="#chapter-2-code" title="永久链接至标题">¶</a></h2>
+<span id="id14"></span><h2>完整源码<a class="headerlink" href="#chapter-2-code" title="永久链接至标题">¶</a></h2>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;cstdio&gt;</span>
 <span class="cp">#include &lt;cstdlib&gt;</span>
 <span class="cp">#include &lt;string&gt;</span>
@@ -484,13 +486,13 @@
             <ul>
 <li><a class="reference external" href="">第二章 实现语法分析器和AST</a><ul>
 <li><a class="reference external" href="#id2">第二章介绍</a></li>
-<li><a class="reference external" href="#id3">抽象语法树（AST）</a></li>
-<li><a class="reference external" href="#id4">语法分析器基础</a></li>
-<li><a class="reference external" href="#id5">解析基本表达式</a></li>
-<li><a class="reference external" href="#id6">解析二元表达式</a></li>
-<li><a class="reference external" href="#id7">解析其余内容</a></li>
-<li><a class="reference external" href="#id8">驱动代码</a></li>
-<li><a class="reference external" href="#id9">结论</a></li>
+<li><a class="reference external" href="#id7">抽象语法树（AST）</a></li>
+<li><a class="reference external" href="#id8">语法分析器基础</a></li>
+<li><a class="reference external" href="#id9">解析基本表达式</a></li>
+<li><a class="reference external" href="#id10">解析二元表达式</a></li>
+<li><a class="reference external" href="#id11">解析其余内容</a></li>
+<li><a class="reference external" href="#id12">驱动代码</a></li>
+<li><a class="reference external" href="#id13">结论</a></li>
 <li><a class="reference external" href="#chapter-2-code">完整源码</a></li>
 </ul>
 </li>
@@ -538,7 +540,7 @@
     </div>
     <div class="footer">
       &copy; 版权所有 2010, 连城.
-      最后更新日期是 2010-03-28 15:38:32.
+      最后更新日期是 2010-03-28 20:09:33.
       使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
     </div>
   </body>
