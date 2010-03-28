@@ -39,7 +39,7 @@ __ http://en.wikipedia.org/wiki/Visitor_pattern
 
 - 第五章：\ **对语言进行扩展：控制流程**
 
-  语言已经就绪并可以运行了，我们再来展示一下如何给它增加控制流程操作（if/then/else和“for”循环）。在此我们将有机会讨论一下简单的SSA构建与控制流程。
+  语言已经就绪并可以运行了，我们再来展示一下如何给它增加控制流程操作（\ ``if``/``then``/``else``\ 和“\ ``for``\ ”循环）。在此我们将有机会讨论一下简单的SSA构建与控制流程。
 
 - 第六章：\ **对语言进行扩展：用户自定义运算符**
 
@@ -62,7 +62,7 @@ __ http://en.wikipedia.org/wiki/Spaghetti_stack
 基础语言
 ========
 
-本教程将用一个我们称之为“\ `Kaleidoscope`__\ ”（引申为“美丽、形态，和视图”）\ [#]_\ 的玩具语言来进行说明。Kaleidoscope是一个过程式语言，允许您定义函数、使用条件语句、进行数学运算，等等。在整过教程过程中，我们将逐步扩展Kaleidoscope为其增加if/then/else结构、for循环、用户自定义运算符、一个具备简单命令行界面的JIT编译器等等。
+本教程将用一个我们称之为“\ `Kaleidoscope`__\ ”（引申为“美丽、形态，和视图”）\ [#]_\ 的玩具语言来进行说明。Kaleidoscope是一个过程式语言，允许您定义函数、使用条件语句、进行数学运算，等等。在整过教程过程中，我们将逐步扩展Kaleidoscope为其增加\ ``if``/``then``/``else``\ 结构、\ ``for``\ 循环、用户自定义运算符、一个具备简单命令行界面的JIT编译器等等。
 
 __ http://en.wikipedia.org/wiki/Kaleidoscope
 
@@ -100,7 +100,8 @@ __ http://llvm.org/docs/tutorial/LangImpl6.html#example
 ==========
 
 想要实现一门语言时，第一件事就是要有能力去处理一个文本文件以搞明白它在说什么。传统的做法是使用“\ `词法分析器`__\ ”（也称“扫描器”）将输入切为“标记（token）”。词法分析器返回的每个标记都包含一个标记代码，并可能带有一些元数据（例如一个数字的数值）。首先，我们要定义可能出现的标记：
-::
+
+.. code-block:: c
 
     // The lexer returns tokens [0-255] if it is an unknown character, otherwise one
     // of these for known things.
@@ -118,6 +119,80 @@ __ http://llvm.org/docs/tutorial/LangImpl6.html#example
     static double NumVal;              // Filled in if tok_number
 
 __ http://en.wikipedia.org/wiki/Lexical_analysis
+
+由我们的词法分析器返回的标记，要么是上述的标记枚举值之一，要么是一个像“+”这样的“未知”字符，这种情况下词法分析器将返回这些字符的ASCII值。若当前的标记是一个标识符，则标识符的名称将被存放于全局变量\ ``IdentifierStr``\ 中。若当前标记是一个数值常量（比如1.0），其值将被存放于\ ``NumVal``\ 中。注意出于简单起见我们使用了全局变量，对实际的语言实现而言这并非最佳选择 :) 。
+
+实际的词法分析器由一个名为\ ``gettok``\ 的函数实现。\ ``gettok``\ 函数被调用时将返回标准输入中的下一个标记。其定义以此起始：
+
+.. code-block:: c
+
+    static int gettok() {
+      static int LastChar = ' ';
+
+      // Skip any whitespace.
+      while (isspace(LastChar))
+        LastChar = getchar();
+
+``gettok``\ 调用C的\ ``getchar()``\ 函数从标准输入中一次一个地读入字符。它吞取和识别字符，同时将读取到的最后一个字符存在\ ``LastChar``\ 中留待处理。首先要做的是忽略掉标记之间的空白符。这由上述的循环完成的。
+
+接下来\ ``gettok``\ 得识别出标识符和特定的关键字，比如“\ ``def``\ ”。Kaleidoscope用下面的简单循环来达到目的：
+
+.. code-block:: c
+
+    if (isalpha(LastChar)) { // identifier: [a-zA-Z][a-zA-Z0-9]*
+      IdentifierStr = LastChar;
+      while (isalnum((LastChar = getchar())))
+        IdentifierStr += LastChar;
+
+      if (IdentifierStr == "def") return tok_def;
+      if (IdentifierStr == "extern") return tok_extern;
+      return tok_identifier;
+    }
+
+注意，这段代码一旦分析出一个标识符，就立即将至存入全局变量\ ``IdentifierStr``\ 中。同时，由于语言中的关键字也在同一个循环中识别，我们在此处一并处理。对数值的识别也类似：
+
+.. code-block:: c
+
+    if (isdigit(LastChar) || LastChar == '.') {   // Number: [0-9.]+
+      std::string NumStr;
+      do {
+        NumStr += LastChar;
+        LastChar = getchar();
+      } while (isdigit(LastChar) || LastChar == '.');
+
+      NumVal = strtod(NumStr.c_str(), 0);
+      return tok_number;
+    }
+
+这些处理输入的代码都很直截了当。当从输入中读到表征数值的字符串时，我们使用C的\ ``strtod``\ 函数将之转换为数值并存入\ ``NumVal``\ 。注意这里并没有做充分的错误检测：这段代码会错误地识别出“1.23.45.67”并将之当作“1.23”来处理。乐意的话请随意修改 :) 。下面我们来处理注释：
+
+.. code-block:: c
+
+    if (LastChar == '#') {
+      // Comment until end of line.
+      do LastChar = getchar();
+      while (LastChar != EOF && LastChar != '\n' && LastChar != '\r');
+
+      if (LastChar != EOF)
+        return gettok();
+    }
+
+我们直接跳过注释行并返回下一个标记。最后，如果输入与上述情况都不相符，则他要么是一个诸如“+”的运算符字符，要么就是已经抵达文件末尾。这种情况有下面的代码来处理：
+
+.. code-block:: c
+
+    
+      // Check for end of file.  Don't eat the EOF.
+      if (LastChar == EOF)
+        return tok_eof;
+      
+      // Otherwise, just return the character as its ascii value.
+      int ThisChar = LastChar;
+      LastChar = getchar();
+      return ThisChar;
+    }
+
+到此为止，我们已经拥有了Kaleidoscope语言的一个完整的词法分析器（词法分析器的\ :ref:`完整源码 <chapter-2-code>`\ 参见本教程的下一章）。接下来我们将\ :doc:`构建一个简单的语法分析器并借助它来构建抽象语法树 <chapter-2>`\ 。届时，我们还会包含一段驱动代码，这样您就能一并使用词法分析器和语法分析器了。
 
 .. [#] Kaleidoscope即“万花筒”。
 

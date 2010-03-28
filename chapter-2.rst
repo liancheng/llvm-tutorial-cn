@@ -30,8 +30,10 @@ __ http://llvm.org/docs/tutorial/LangImpl2.html
 结论
 ====
 
-源码
-====
+.. _chapter-2-code:
+
+完整源码
+========
 
 .. include:: include/chapter-2-code.rst
 
