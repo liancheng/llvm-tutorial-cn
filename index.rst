@@ -14,7 +14,7 @@ __ http://creativecommons.org/licenses/by-nc-nd/2.5/cn/legalcode
 目录：
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    chapter-1.rst
    chapter-2.rst

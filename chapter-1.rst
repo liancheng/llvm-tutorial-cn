@@ -39,7 +39,7 @@ __ http://en.wikipedia.org/wiki/Visitor_pattern
 
 - :doc:`第五章 <chapter-5>`\ ：\ **对语言进行扩展：控制流程**
 
-  语言已经就绪并可以运行了，我们再来展示一下如何给它增加控制流程操作（\ ``if``/``then``/``else``\ 和“\ ``for``\ ”循环）。在此我们将有机会讨论一下简单的SSA构建与控制流程。
+  语言已经就绪并可以运行了，我们再来展示一下如何给它增加控制流程操作（\ ``if``/``then``/``else``\ 和“\ ``for``\ ”循环）。在此我们将有机会讨论一下简单的\ `SSA`__\ 构建与控制流程。
 
 - :doc:`第六章 <chapter-6>`\ ：\ **对语言进行扩展：用户自定义运算符**
 
@@ -54,6 +54,7 @@ __ http://en.wikipedia.org/wiki/Visitor_pattern
   本章对扩展语言的潜在方法做了讨论，以此对本系列做了一个了结。同时也包含了一些“特殊主题”的参考信息，如添加垃圾回收支持、异常、调试、“\ `意面式堆栈`__\ ”支持，以及很多其他的窍门和技巧。
 
 __ http://en.wikipedia.org/wiki/Spaghetti_stack
+__ http://en.wikipedia.org/wiki/Static_single_assignment_form
 
 到本教程结束时，不算注释和空行，我们总共将编写不到700行代码。借助这些代码，我们为一个相对复杂的语言搭建了一个非常靠谱的编译器，包括手工打造的词法分析器、语法分析器、AST，以及带JIT编译器的代码生成支持。在别的系统只提供了些有那么点意思的“hello world”教程的时候，我想这篇教程的广度足以诠释LLVM的强大，以及当您对语言和编译器设计感兴趣时为何应该考虑使用LLVM。
 
@@ -101,7 +102,7 @@ __ http://llvm.org/docs/tutorial/LangImpl6.html#example
 
 想要实现一门语言时，第一件事就是要有能力去处理一个文本文件以搞明白它在说什么。传统的做法是使用“\ `词法分析器`__\ ”（也称“扫描器”）将输入切为“标记（token）”。词法分析器返回的每个标记都包含一个标记代码，并可能带有一些元数据（例如一个数字的数值）。首先，我们要定义可能出现的标记：
 
-.. code-block:: c
+.. code-block:: cpp
 
     // The lexer returns tokens [0-255] if it is an unknown character, otherwise one
     // of these for known things.
@@ -124,7 +125,7 @@ __ http://en.wikipedia.org/wiki/Lexical_analysis
 
 实际的词法分析器由一个名为\ ``gettok``\ 的函数实现。\ ``gettok``\ 函数被调用时将返回标准输入中的下一个标记。其定义以此起始：
 
-.. code-block:: c
+.. code-block:: cpp
 
     static int gettok() {
       static int LastChar = ' ';
@@ -137,7 +138,7 @@ __ http://en.wikipedia.org/wiki/Lexical_analysis
 
 接下来\ ``gettok``\ 得识别出标识符和特定的关键字，比如“\ ``def``\ ”。Kaleidoscope用下面的简单循环来达到目的：
 
-.. code-block:: c
+.. code-block:: cpp
 
     if (isalpha(LastChar)) { // identifier: [a-zA-Z][a-zA-Z0-9]*
       IdentifierStr = LastChar;
@@ -151,7 +152,7 @@ __ http://en.wikipedia.org/wiki/Lexical_analysis
 
 注意，这段代码一旦分析出一个标识符，就立即将至存入全局变量\ ``IdentifierStr``\ 中。同时，由于语言中的关键字也在同一个循环中识别，我们在此处一并处理。对数值的识别也类似：
 
-.. code-block:: c
+.. code-block:: cpp
 
     if (isdigit(LastChar) || LastChar == '.') {   // Number: [0-9.]+
       std::string NumStr;
@@ -166,7 +167,7 @@ __ http://en.wikipedia.org/wiki/Lexical_analysis
 
 这些处理输入的代码都很直截了当。当从输入中读到表征数值的字符串时，我们使用C的\ ``strtod``\ 函数将之转换为数值并存入\ ``NumVal``\ 。注意这里并没有做充分的错误检测：这段代码会错误地识别出“1.23.45.67”并将之当作“1.23”来处理。乐意的话请随意修改 :) 。下面我们来处理注释：
 
-.. code-block:: c
+.. code-block:: cpp
 
     if (LastChar == '#') {
       // Comment until end of line.
@@ -179,7 +180,7 @@ __ http://en.wikipedia.org/wiki/Lexical_analysis
 
 我们直接跳过注释行并返回下一个标记。最后，如果输入与上述情况都不相符，则他要么是一个诸如“+”的运算符字符，要么就是已经抵达文件末尾。这种情况有下面的代码来处理：
 
-.. code-block:: c
+.. code-block:: cpp
 
     
       // Check for end of file.  Don't eat the EOF.
