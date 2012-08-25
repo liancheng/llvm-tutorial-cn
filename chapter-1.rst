@@ -11,18 +11,18 @@ __ http://llvm.org/docs/tutorial/LangImpl1.html
 教程介绍
 ========
 
-欢迎来到本教程——“用LLVM开发新语言”。本教程详细描述了一门简单语言的实现过程，同时也展示了这个过程是多么的简单和有趣。本教程将会带您起步，同时协助您构建一个可用以扩展成其他语言框架。教程中的代码可以作为尝试LLVM中其他相关功能的试验田。
+欢迎进入本教程——“用LLVM开发新语言”。本教程详细描述了一门简单语言的实现过程，你将会发现这个过程是多么的简单而有趣。本教程将会带您起步，同时协助您构建一个可用以扩展成其他语言框架。教程中的代码可以作为尝试LLVM中其他相关功能的试验田。
 
 本教程的目的在于渐进地揭示我们的语言，详述它的构建过程。期间我们将广泛覆盖有关语言设计和LLVM用法的大量问题。我们会沿途展示和阐述相关的代码，让您不至被大量的细节弄得晕头转向。
 
-得提前说明的是，本教程教授的是编译器技术和LLVM，\ **不是**\ 健全的、现代化的软件工程原则。在实际操作中，这意味着我们将走一些捷径以简化阐述。比如代码中会有内存泄漏、到处是全局变量、不会用到\ `visitor`__\ 等良好的模式等等……一切从简。如果您打算深究这些代码以作为未来项目的基础，填补这些缺陷也并不是什么难事。
+得提前说明的是，本教程讲授的是编译器技术和LLVM，而\ **不是**\ 健全的、现代化的软件工程原则。在实际操作中，这意味着我们将走一些捷径以简化阐述。比如代码中会有内存泄漏、到处是全局变量、不会用到\ `visitor`__\ 等良好的模式等等……一切从简。如果您打算深究这些代码以作为未来项目的基础，填补这些缺陷也并不是什么难事。
 
 __ http://en.wikipedia.org/wiki/Visitor_pattern
 
 我对教程内容按章节进行了组织，如果您对某些内容很熟悉或不感兴趣便可直接跳过。教程结构如下：
 
 - :doc:`第一章 <chapter-1>`\ ：\ **Kaleidoscope语言的结构，以及词法解析器的定义**
-  
+
   说明我们想要做些什么以及希望新语言具备的功能。为了最大限度地令这份教程易于理解和修改，我们选用C++而不使用任何的词法和语法分析器的生成器。当然LLVM可以很好地与这些工具协作，如果愿意您大可选择一种来用。
 
 - :doc:`第二章 <chapter-2>`\ ：\ **实现语法分析器和AST**
@@ -68,6 +68,7 @@ __ http://en.wikipedia.org/wiki/Static_single_assignment_form
 __ http://en.wikipedia.org/wiki/Kaleidoscope
 
 为了一切从简，Kaleidoscope唯一支持的数据类型就是64位浮点数（也就是C中的“double”）。如此一来，所有的值都隐含为双精度，同时语言也无须类型申明。这赋予了该语言良好而简单的语法。例如，以下是一个计算\ `斐波那契数`__\ 的简单示例：
+
 ::
 
     # Compute the x'th fibonacci number.
@@ -83,6 +84,7 @@ __ http://en.wikipedia.org/wiki/Kaleidoscope
 __ http://en.wikipedia.org/wiki/Fibonacci_number
 
 我们也允许Kaleidoscope直接调用标志库函数（LLVM JIT使之极其简单）。这意味着您可以在使用一个函数之前先用“extern”关键字来定义它（这对相互递归的函数也很有用）。例如：
+
 ::
 
     extern sin(arg);
@@ -182,11 +184,10 @@ __ http://en.wikipedia.org/wiki/Lexical_analysis
 
 .. code-block:: cpp
 
-    
       // Check for end of file.  Don't eat the EOF.
       if (LastChar == EOF)
         return tok_eof;
-      
+
       // Otherwise, just return the character as its ascii value.
       int ThisChar = LastChar;
       LastChar = getchar();
@@ -197,4 +198,4 @@ __ http://en.wikipedia.org/wiki/Lexical_analysis
 
 .. [#] Kaleidoscope即“万花筒”。
 
-.. vim:ft=rst ts=4 sw=4 fenc=utf-8 enc=utf-8 et wrap
+.. vim:ft=rst ts=4 sw=4 enc=utf-8 et wrap

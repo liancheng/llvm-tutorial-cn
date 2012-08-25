@@ -1,4 +1,4 @@
-.. include:: include/substitution.rst
+.. include:: _include/substitution.rst
 
 Kaleidoscope：用LLVM开发新语言
 ==============================
@@ -27,4 +27,4 @@ __ http://creativecommons.org/licenses/by-nc-nd/2.5/cn/legalcode
 
 .. image:: _static/cc.png 
 
-.. vim:ft=rst ts=4 sw=4 fenc=utf-8 enc=utf-8 et
+.. vim:ft=rst ts=4 sw=4 et
