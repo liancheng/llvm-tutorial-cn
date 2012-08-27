@@ -1,0 +1,8 @@
+{%- if show_source and has_source and sourcename -%}
+  <ul class="nav nav-list">
+    <li class="nav-header">{{ _('This Page') }}</li>
+    <ul>
+      <li><a href="{{ pathto('_sources/' + sourcename, true) | e }}" rel="nofollow">{{ _('Show Source') }}</a></li>
+    </ul>
+  </ul>
+{%- endif -%}

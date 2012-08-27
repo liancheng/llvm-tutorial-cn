@@ -1,0 +1,54 @@
+@import url("basic.css");
+
+/* Resets field list style */
+table.field-list td, table.field-list th {
+  text-align: left;
+}
+
+/* Resets footnote label style */
+table.footnote .label {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-shadow: inherit;
+  white-space: inherit
+  vertical-align: inherit;
+  background-color: inherit;
+  padding: inherit;
+  -webkit-border-radius: inherit;
+     -moz-border-radius: inherit;
+          border-radius: inherit;
+}
+
+div.sphinxsidebar {
+  margin-left: 0;
+}
+
+div.content {
+  margin-top: 40px;
+}
+
+div.footer {
+  text-align: right;
+}
+
+{%- if not (theme_notextindent | tobool) -%}
+  .body p {
+    text-indent: 2em;
+  }
+
+  .body p.compound-middle,
+  .body p.compound-last,
+  .body p.topic-title,
+  .body p.rubric,
+  .body table.footnote p,
+  .body li p.first,
+  .body li div.first p.compound-first {
+    text-indent: 0;
+  }
+{%- endif -%}
+
+a.reference>em {
+  font-style: inherit;
+}

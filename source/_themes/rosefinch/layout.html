@@ -1,0 +1,75 @@
+{%- extends "basic/layout.html" -%}
+
+{%- set script_files   = script_files + ["_static/bootstrap.min.js"] -%}
+{%- set css_files      = css_files    + ["_static/bootstrap.min.css"] -%}
+{%- set render_sidebar = (not embedded) and (not theme_nosidebar | tobool) and (sidebars != []) -%}
+{%- set right_sidebar  = (theme_rightsidebar | tobool) -%}
+{%- set sticky_sidebar = (theme_stickysidebar | tobool) -%}
+{%- set document_span  = render_sidebar and 'span9' or 'span12' -%}
+
+{%- block doctype -%}
+<!DOCTYPE HTML>
+{%- endblock -%}
+
+{%- block header -%}
+{%- endblock -%}
+
+{%- block content -%}
+  <div class="content container-fluid">
+    <div class="row-fluid">
+      {{ super() }}
+    </div>
+  </div>
+{%- endblock -%}
+
+{%- block document -%}
+  <div class="{{ document_span }}">
+    {{ super() }}
+  </div>
+{%- endblock -%}
+
+{%- block relbar1 -%}
+  <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a href="{{ pathto('index') }}" class="brand">{{ docstitle | e }}</a>
+        <ul class="nav">
+          {%- if next -%}
+            <li><a href="{{ next.link }}">{{ _('next') }}</a></li>
+          {%- endif -%}
+          {%- if prev -%}
+            <li><a href="{{ prev.link }}">{{ _('previous') }}</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+{%- endblock -%}
+
+{%- block relbar2 -%}
+{%- endblock -%}
+
+{%- block sidebar1 -%}
+  {%- if render_sidebar and (not right_sidebar) -%}
+    <div class="span3">
+      {%- if sticky_sidebar -%}<div class="affix">{%- endif -%}
+      {{ sidebar() }}
+      {%- if sticky_sidebar -%}</div>{%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endblock -%}
+
+{%- block sidebar2 -%}
+  {%- if render_sidebar and right_sidebar -%}
+    <div class="span3">
+      {%- if sticky_sidebar -%}<div class="affix">{%- endif -%}
+      {{ sidebar() }}
+      {%- if sticky_sidebar -%}</div>{%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endblock -%}
+
+{%- block footer -%}
+  <hr />
+  {{ super() }}
+{%- endblock -%}

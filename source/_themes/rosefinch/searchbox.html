@@ -1,0 +1,9 @@
+{%- if pagename != "search" and theme_siteurl != "" -%}
+  <ul class="nav nav-list">
+    <li class="divider"></li>
+    <form action="http://www.google.com/search" method="get" class="form-search">
+      <input type="text" name="as_q" placeholder="{{ _('Go') }}" class="search-query span12" />
+      <input type="hidden" name="sitesearch" value="{{ theme_siteurl }}" />
+    </form>
+  </ul>
+{%- endif -%}
