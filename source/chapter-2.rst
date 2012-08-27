@@ -2,7 +2,7 @@
 第二章 实现语法分析器和AST
 **************************
 
-`本章原文`__
+:原文: `Implementing a Parser and AST`__
 
 __ http://llvm.org/docs/tutorial/LangImpl2.html
 

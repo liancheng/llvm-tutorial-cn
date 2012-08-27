@@ -2,7 +2,7 @@
 第八章 结论及LLVM相关的其他有用内容
 ***********************************
 
-`本章原文`__
+:原文: `Extending the Language: Mutable Variables`__
 
 __ http://llvm.org/docs/tutorial/LangImpl8.html
 

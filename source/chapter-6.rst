@@ -2,7 +2,7 @@
 第六章 对语言进行扩展：用户自定义运算符
 ***************************************
 
-`本章原文`__
+:原文: `Extending the Language: User-defined Operators`__
 
 __ http://llvm.org/docs/tutorial/LangImpl6.html
 

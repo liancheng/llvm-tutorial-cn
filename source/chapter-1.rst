@@ -4,7 +4,7 @@
 第一章 教程介绍与词法分析器
 ***************************
 
-`本章原文`__
+:原文: `Tutorial Introduction and the Lexer`__
 
 __ http://llvm.org/docs/tutorial/LangImpl1.html
 

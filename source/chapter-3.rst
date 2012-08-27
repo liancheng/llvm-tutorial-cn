@@ -2,7 +2,7 @@
 第三章 LLVM IR代码生成
 **********************
 
-`本章原文`__
+:原文: `Code generation to LLVM IR`__
 
 __ http://llvm.org/docs/tutorial/LangImpl3.html
 

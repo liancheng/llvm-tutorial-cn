@@ -2,7 +2,7 @@
 第四章 添加JIT和优化支持
 ************************
 
-`本章原文`__
+:原文: `Adding JIT and Optimizer Support`__
 
 __ http://llvm.org/docs/tutorial/LangImpl4.html
 

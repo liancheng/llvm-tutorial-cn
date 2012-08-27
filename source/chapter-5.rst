@@ -2,7 +2,7 @@
 第五章 对语言进行扩展：控制流程
 *******************************
 
-`本章原文`__
+:原文: `Extending the Language: Control Flow`__
 
 __ http://llvm.org/docs/tutorial/LangImpl5.html
 

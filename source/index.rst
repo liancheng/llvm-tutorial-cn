@@ -3,13 +3,14 @@
 Kaleidoscope：用LLVM开发新语言
 ==============================
 
-:作者:      `Chris Lattner <sabre@nondot.org>`_
-:译者:      `连城 <rhythm.mail@gmail.com>`_
-:最后更新:  |date|
-:许可协议:  `知识共享“署名、非商业性使用、禁止演绎”2.5中国大陆许可协议`__\ （\ `全文`__\ ） |cc|
+:原文:     `LLVM Tutorial`__
+:作者:     `Chris Lattner <sabre@nondot.org>`_
+:译者:     `连城 <rhythm.mail@gmail.com>`_
+:许可协议: `知识共享“署名、非商业性使用、禁止演绎”2.5中国大陆许可协议`__\ （\ `全文`__\ ） |cc|
 
 .. |cc| image:: _static/img/cc.png
 
+__ http://llvm.org/docs/tutorial/index.html
 __ http://creativecommons.org/licenses/by-nc-nd/2.5/cn/
 __ http://creativecommons.org/licenses/by-nc-nd/2.5/cn/legalcode
 

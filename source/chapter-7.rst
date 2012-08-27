@@ -2,7 +2,7 @@
 第七章 对语言进行扩展：可变变量
 *******************************
 
-`本章原文`__
+:原文: `Extending the Language: Mutable Variables / SSA Construction`__
 
 __ http://llvm.org/docs/tutorial/LangImpl7.html
 
