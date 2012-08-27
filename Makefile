@@ -22,8 +22,7 @@ default: clean html
 
 publish:
 	cd build/html/
-	git add .
-	git commit -m "Updated Sphinx build"
+	git commit -a -m "Updated Sphinx build"
 	tsocks git push origin
 
 help:
