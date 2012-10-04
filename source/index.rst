@@ -1,5 +1,3 @@
-.. include:: _includes/substitution.rst
-
 用LLVM开发新语言
 ================
 

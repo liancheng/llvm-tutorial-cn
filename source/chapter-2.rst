@@ -24,19 +24,25 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 
 程序的抽象语法树的作用在于抓住程序行为的要义，以便编译器后续环节（如代码生成）对其进行解析。基本上，我们希望语言中的每个结构都有一个对象与之对应，AST也应该对语言进行紧密的建模。在Kaleidoscope中，我们有表达式、函数原型和函数对象。我们首先从表达式入手：
 
-.. include:: _includes/chapter-2-code-1.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 72-89
+    :language: cpp
 
 上述代码定义了基类\ ``ExprAST``\ 和一个用于数值常量的子类。需要注意的一点是，\ ``NumberExprAST``\ 将文本所表示的数值存放在了成员变量中。这样编译器的后续环节便可以得知所存的数值。
 
 目前为止我们还只是构建了AST，尚无有用的访问它们的方法。比如，我们可以很容易地增加一个虚方法来对代码作格式化打印。一下我们将在Kaleidoscope中用到的其他表达式AST节点的定义：
 
-.. include:: _includes/chapter-2-code-2.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 91-114
+    :language: cpp
 
 这部分（有意地）设计得非常直截了当：\ ``VariableExprAST``\ 保存变量名，\ ``BinaryExprAST``\ 保存操作符（如“+”），\ ``CallExprAST``\ 保存函数名和作为参数的表达式列表。我们设计的AST的优势之一便是可以在不涉及语法的情况下抓住语言本身的特性。注意这里还没有讨论二元运算符的优先级和词法结构等等。
 
 对我们的基本语言来说，这些就是需要定义的所有表达式节点了。由于目前还不具备条件控制流程，它还不是图灵完备的；我们将在后续环节中予以完善。接下来要做的两件事是找出一种描述函数接口的方法和一种描述函数自身的方法：
 
-.. include:: _includes/chapter-2-code-3.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 116-136
+    :language: cpp
 
 在Kaleidoscope中，函数的类型是由其参数个数决定的。由于所有的值都是双精度浮点数，无须存储参数本身的类型。在更强大和实际的语言中，\ ``ExprAST``\ 类就很可能会有一个类型字段。
 
@@ -47,15 +53,20 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 
 现在我们要开始构造AST了，我们得定义完成构造工作的解析代码。其基本想法是将诸如“x+y”（在此处应是由词法分析器返回的三个标记）这样的东西借助这样的调用解析成AST：
 
-.. include:: _includes/chapter-2-code-4.rst
+.. literalinclude:: _includes/chapter-2_sample-1.cpp
+    :language: cpp
 
 为了达到这个目的，我们先定义一些辅助代码：
 
-.. include:: _includes/chapter-2-code-5.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 142-148
+    :language: cpp
 
 这段代码借助词法分析器实现了一个简单的标记缓冲，使得我们可以提前看到词法分析器将要返回的下一个标记。我们的语法解析器中的所有函数都假设\ ``CurTok``\ 是当前正需要解析的标记。
 
-.. include:: _includes/chapter-2-code-6.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 165-168
+    :language: cpp
 
 ``Error``\ 函数是我们的解析器用来处理错误的一个简单的辅助函数。我们的解析器的错误恢复策略并不是最好的，对用户也不特别友好，不过对我们的教程而言也已经足够了。这几个函数简化了那些具备不同返回值类型的函数的错误处理：它们只返回\ ``NULL``\ 。
 
@@ -66,13 +77,17 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 
 之所以从数值常量开始，是因为针对它们的处理最简单。对于语法中的每个规则，我们都定义一个解析该规则的函数。对于数值常量，我们有：
 
-.. include:: _includes/chapter-2-code-7.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 206-211
+    :language: cpp
 
 这段代码很简单：它在当前标记为\ ``tok_number``\ 时被调用。它用当前解析出的数值构造一个\ ``NumberExprAST``\ 节点，将词法分析器步进到下一个标记，最后返回。
 
 这儿有几点很有趣。其中最重要的一点就是该函数会取走与该规则相关的所有标记并在返回前将下一个标记（该标记不属于当前的语法规则）放入标记缓冲。这是非常标准的递归下降解析器的行为。作为一个更合适的例子，括号运算符的定义如下：
 
-.. include:: _includes/chapter-2-code-8.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 213-223
+    :language: cpp
 
 该函数展示了我们的解释器的几个有趣的地方：
 
@@ -82,13 +97,17 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 
 下一个简单规则是用于处理变量引用和函数调用的：
 
-.. include:: _includes/chapter-2-code-8.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 172-198
+    :language: cpp
 
 这段代码和其它函数的风格一致。（它应该在当前标记为\ ``tok_identifier``\ 时被调用）。它也具备递归和错误处理。比较有意思的时它采用了\ **预取**\ 的方式来确定当前的标识符到底是一个独立的变量引用还是一个函数调用表达式。它通过检查紧跟标识符之后的标记是否是“\ ``(``\ ”来决定应该构造一个\ ``VariableExprAST``\ 还是一个\ ``CallExprAST``\ 节点。
 
 现在，所有的表达式解析逻辑都已经到位，我们可以写一个辅助函数将之包装到一个统一的入口。我们将这类表达式称为\ **主**\ 表达式，原因将在本教程的\ `后续章节`__\ 中详述。为了解析任意的主表达式，我们需要确定表达式的类型：
 
-.. include:: _includes/chapter-2-code-9.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 225-236
+    :language: cpp
 
 __ http://llvm.org/docs/tutorial/LangImpl6.html#unary
 
@@ -103,7 +122,9 @@ __ http://llvm.org/docs/tutorial/LangImpl6.html#unary
 
 处理这个问题的方法有很多种，但最优雅高效的方法还是使用\ `算符优先级解析`__\ 。这种解析技术利用二元运算符的优先级来引导递归。首先，我们需要一张优先级表：
 
-.. include:: _includes/chapter-2-code-10.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 150-164,382-388
+    :language: cpp
 
 __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 
@@ -113,17 +134,23 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 
 首先，表达式由一个主表达式开头，后续可能伴随着一个\ ``[binop, primaryexpr]``\ 序对的列表：
 
-.. include:: _includes/chapter-2-code-11.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 271-279
+    :language: cpp
 
 ``ParseBinOpRHS``\ 是为我们解析序对列表的函数。它携带着一个优先级和一个指向当前解析出的表达式的指针。注意“\ ``x``\ ”是一个完全合法的表达式：因此\ ``binoprhs``\ 可以为空，这时函数会将传入的表达式返回。在我们上面的例子中，这段代码会将“\ ``a``\ ”传入\ ``ParseBinOpRHS``\ ，同时当前标记为“\ ``+``\ ”。
 
 传给\ ``ParseBinOpRHS``\ 的优先级代表了该函数所能消化的\ **最小运算符优先级**\ 。例如，若标记流中当前的序对为“\ ``[+, x]``\ ”且传给\ ``ParseBinOpRHS``\ 的优先级为40，则该函数不会再取走任何标记（因为“\ ``+``\ ”的优先级为20）。弄明白了这点，\ ``ParseBinOpRHS``\ 的定义可以像这样开始：
 
-.. include:: _includes/chapter-2-code-12.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 238-248
+    :language: cpp
 
 这段代码查询当前标记的优先级并检查优先级是否过低。由于我们将非二元运算符标记的优先级定义为\ ``-1``\ ，因此该检查在序对流中不再有二元运算符时便会自行结束。如果检查通过，则该标记是一个二元运算符且会被囊括到当前的表达式中：
 
-.. include:: _includes/chapter-2-code-13.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 250-256
+    :language: cpp
 
 解析其余内容
 ============
@@ -134,11 +161,12 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 结论
 ====
 
-.. _chapter-2-code:
+.. _chapter-2_full-code:
 
 完整源码
 ========
 
-.. include:: _includes/chapter-2-code-full.rst
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :language: cpp
 
 .. vim:ft=rst ts=4 sw=4 et wrap

@@ -21,6 +21,4 @@ __ http://llvm.org/docs/tutorial/LangImpl3.html
 完整源码
 ========
 
-.. include:: _includes/chapter-3-code-full.rst
-
 .. vim:ft=rst ts=4 sw=4 et

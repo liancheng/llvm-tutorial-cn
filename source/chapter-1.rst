@@ -19,9 +19,9 @@ __ http://en.wikipedia.org/wiki/Visitor_pattern
 
 我试着编排了本教程的各个章节，碰到熟悉的或是不感兴趣的章节，你大可直接跳过。本教程结构如下：
 
-- :doc:`第一章 <chapter-1>`\ ：\ **Kaleidoscope语言及其词法解析器简介**\ ——说明我们的目的，以及新语言应该具备些什么基本功能。为了尽量让这份教程易于理解和入手，我们决定不采用任何词法分析器和语法分析器的生成器（例如lex/yacc或flex/bison——译者注），而是直接用C++实现所有功能。当然，配合这些工具使用LLVM也完全没问题，如果乐意，你大可一试。
+- :doc:`第一章 <chapter-1>`\ ：\ **Kaleidoscope语言及其词法解析器简介**\ ——说明我们的目的，以及新语言应该具备些什么基本功能。为了尽量让这份教程易于理解和入手，我们决定不采用任何词法分析器和语法分析器的生成器\ [#]_\ ，而是直接用C++实现所有功能。当然，配合这些工具使用LLVM也完全没问题，如果乐意，你大可一试。
 
-- :doc:`第二章 <chapter-2>`\ ：\ **实现语法分析器和AST**\ ——完成了词法分析器，接下来就该讨论语法解析技术并开始构造基本的AST（Abstract Syntax Tree，抽象语法树——译者注）了。这份教程共介绍了递归下降解析和运算符优先级解析两种解析技术。\ :doc:`第一章 <chapter-1>`\ 和\ :doc:`第二章 <chapter-2>`\ 的内容与LLVM完全无关，至此我们的代码甚至都不需要链接LLVM库。 :)
+- :doc:`第二章 <chapter-2>`\ ：\ **实现语法分析器和AST**\ ——完成了词法分析器，接下来就该讨论语法解析技术并开始构造基本的AST（Abstract Syntax Tree，抽象语法树——译者注）了。这份教程共介绍了递归下降解析和运算符优先级解析两种解析技术。\ :doc:`第一章 <chapter-1>`\ 和\ :doc:`第二章 <chapter-2>`\ 的内容与LLVM完全无关，至此我们的代码甚至都不需要链接LLVM库。 :-)
 
 - :doc:`第三章 <chapter-3>`\ ：\ **LLVM IR代码生成**\ ——搞定AST之后，我们将炫耀一番，让你看看LLVM IR的生成过程是多么的简单。
 
@@ -31,7 +31,7 @@ __ http://en.wikipedia.org/wiki/Visitor_pattern
 
 - :doc:`第六章 <chapter-6>`\ ：\ **语言扩展：用户自定义运算符**\ ——这一章虽然无聊但却很有意思，它讨论了如何对语言进行扩展，从而让用户能够在程序中自行定义任意的一元和二元运算符（还可以设置优先级！）。这一机制使得我们得以将该“语言”的很大一部分都实现成库函数。
 
-- :doc:`第七章 <chapter-7>`\ ：\ **语言扩展：可变变量**\ ——本章介绍的是如何添加用户自定义局部变量和赋值运算符。最有趣儿的地方在于，在LLVM中构造SSA form简单至极：不，实际上LLVM压根儿就\ **不**\ 要求你在前端（指编译器/解释器前端——译者注）构造SSA form！
+- :doc:`第七章 <chapter-7>`\ ：\ **语言扩展：可变变量**\ ——本章介绍的是如何添加用户自定义局部变量和赋值运算符。最有趣儿的地方在于，在LLVM中构造SSA form简单至极：不，实际上LLVM压根儿就\ **不**\ 要求你在前端\ [#]_\ 构造SSA form！
 
 - :doc:`第八章 <chapter-8>`\ ：\ **结论以及其他和LLVM相关的内容**\ ——本章对整个系列教程进行了总结，不仅讨论了多种潜在的语言扩展方向，同时还给出了一系列“专题”的参考资料，例如垃圾回收支持、异常、调试、“\ `意面式栈`__\ ”支持，此外还有很多其他窍门和技巧。
 
@@ -45,141 +45,79 @@ __ http://en.wikipedia.org/wiki/Spaghetti_stack
 基础语言
 ========
 
-本教程将用一个我们称之为“\ `Kaleidoscope`__\ ”（引申为“美丽、形态，和视图”）\ [#]_\ 的玩具语言来进行说明。Kaleidoscope是一个过程式语言，允许您定义函数、使用条件语句、进行数学运算，等等。在整过教程过程中，我们将逐步扩展Kaleidoscope为其增加\ ``if``/``then``/``else``\ 结构、\ ``for``\ 循环、用户自定义运算符、一个具备简单命令行界面的JIT编译器等等。
+本教程将采用一门玩具语言来进行讲解，这门语言名叫“\ `Kaleidoscope`__\ ”（引申为“美丽、形态万千、多姿多彩”）\ [#]_\ 。Kaleidoscope是一个过程式语言，利用它你可以定义函数、使用条件语句，还能进行数学运算等等。随着教程的深入，我们将逐步扩展Kaleidoscope，为它增加\ ``if``/``then``/``else``\ 结构、\ ``for``\ 循环、用户自定义运算符，以及带有简单命令行界面的JIT编译器等等。
 
 __ http://en.wikipedia.org/wiki/Kaleidoscope
 
-为了一切从简，Kaleidoscope唯一支持的数据类型就是64位浮点数（也就是C中的“double”）。如此一来，所有的值都隐含为双精度，同时语言也无须类型申明。这赋予了该语言良好而简单的语法。例如，以下是一个计算\ `斐波那契数`__\ 的简单示例：
+简单起见，Kaleidoscope只支持一种数据类型，即64位浮点数（也就是C中的“double”）。这样一来，所有的值都是双精度浮点数，类型申明也省了，语言的语法简洁明快。例如，以下是一个用于计算\ `斐波那契数`__\ 的简单示例：
 
-::
-
-    # Compute the x'th fibonacci number.
-    def fib(x)
-      if x < 3 then
-        1
-      else
-        fib(x-1)+fib(x-2)
-
-    # This expression will compute the 40th number.
-    fib(40)
+.. literalinclude:: _includes/chapter-1_1.kaleido
 
 __ http://en.wikipedia.org/wiki/Fibonacci_number
 
-我们也允许Kaleidoscope直接调用标志库函数（LLVM JIT使之极其简单）。这意味着您可以在使用一个函数之前先用“extern”关键字来定义它（这对相互递归的函数也很有用）。例如：
+Kaleidoscope还能调用标准库函数（有了LLVM JIT，实现这一点简单至极）。不过，在调用函数之前需要先用“\ ``extern``\ ”关键字对函数进行申明\ [#]_\ （碰到相互递归调用的函数\ [#]_\ 时也需要这么做）。例如：
 
-::
+.. literalinclude:: _includes/chapter-1_2.kaleido
 
-    extern sin(arg);
-    extern cos(arg);
-    extern atan2(arg1 arg2);
-
-    atan2(sin(.4), cos(42))
-
-第六章中有一个更有趣的示例：我们编写了一个Kaleidoscope小应用，用以在不同放大尺度上\ `显示Mandelbrot集合`__\ 。
+:doc:`第六章 <chapter-6>`\ 中有一个更有趣的例子：我们用Kaleidoscope编写了一个小应用，可以在不同尺度上\ `显示Mandelbrot集合`__\ 。
 
 __ http://llvm.org/docs/tutorial/LangImpl6.html#example
 
-让我们来细细品味一下这个语言的实现过程吧！
+让我们来细细品味一下这门语言的实现过程吧！
 
 词法分析器
 ==========
 
-想要实现一门语言时，第一件事就是要有能力去处理一个文本文件以搞明白它在说什么。传统的做法是使用“\ `词法分析器`__\ ”（也称“扫描器”）将输入切为“标记（token）”。词法分析器返回的每个标记都包含一个标记代码，并可能带有一些元数据（例如一个数字的数值）。首先，我们要定义可能出现的标记：
+要实现一门语言，第一要务就是对文本文件进行处理，搞明白其中写了些什么。传统上，我们采用“\ `词法分析器`__\ ”（也称为“扫描器”）将输入切成“语元（token）”。由词法分析器返回的每个语元都带有一个语元编号，此外可能还会附带一些元数据（例如某个数的数值）。首先，我们来定义所有可能出现的语元：
 
-.. code-block:: cpp
-
-    // The lexer returns tokens [0-255] if it is an unknown character, otherwise one
-    // of these for known things.
-    enum Token {
-      tok_eof = -1,
-
-      // commands
-      tok_def = -2, tok_extern = -3,
-
-      // primary
-      tok_identifier = -4, tok_number = -5,
-    };
-
-    static std::string IdentifierStr;  // Filled in if tok_identifier
-    static double NumVal;              // Filled in if tok_number
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 6-24
+    :language: cpp
 
 __ http://en.wikipedia.org/wiki/Lexical_analysis
 
-由我们的词法分析器返回的标记，要么是上述的标记枚举值之一，要么是一个像“+”这样的“未知”字符，这种情况下词法分析器将返回这些字符的ASCII值。若当前的标记是一个标识符，则标识符的名称将被存放于全局变量\ ``IdentifierStr``\ 中。若当前标记是一个数值常量（比如1.0），其值将被存放于\ ``NumVal``\ 中。注意出于简单起见我们使用了全局变量，对实际的语言实现而言这并非最佳选择 :) 。
+由我们的词法分析器返回的语元，要么是上述语元枚举值之一，要么是诸如“\ ``+``\ ”这样的“未知”字符。对于后一种情况，词法分析器将返回这些字符的ASCII值。若当前语元是个标识符，则标识符的名称将被存放于全局变量\ ``IdentifierStr``\ 之中。若当前语元是个数值常量（比如1.0），其值将被存放于\ ``NumVal``\ 中。注意，简单起见我们使用了全局变量，对于真正的语言实现而言这可不是最佳选择 :-) 。
 
-实际的词法分析器由一个名为\ ``gettok``\ 的函数实现。\ ``gettok``\ 函数被调用时将返回标准输入中的下一个标记。其定义以此起始：
+Kaleidoscope的词法分析器由一个名为\ ``gettok``\ 的函数实现。\ ``gettok``\ 函数被调用时，会从标准输入中返回下一个语元。该函数的开头是这样的：
 
-.. code-block:: cpp
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 27-32
+    :language: cpp
 
-    static int gettok() {
-      static int LastChar = ' ';
+``gettok``\ 通过C标准库的\ ``getchar()``\ 函数从标准输入中逐个读入字符。它一边读取和识别字符，一边将读入的最后一个字符存入\ ``LastChar``\ 中留待后续处理。该函数要做的第一件事就是借助上述循环剔除语元之间的空白符。
 
-      // Skip any whitespace.
-      while (isspace(LastChar))
-        LastChar = getchar();
+接下来，\ ``gettok``\ 要识别出标识符和诸如“\ ``def``\ ”等特定的关键字。Kaleidoscope通过下面这个简单循环来达到目的：
 
-``gettok``\ 调用C的\ ``getchar()``\ 函数从标准输入中一次一个地读入字符。它吞取和识别字符，同时将读取到的最后一个字符存在\ ``LastChar``\ 中留待处理。首先要做的是忽略掉标记之间的空白符。这由上述的循环完成的。
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 34-42
+    :language: cpp
 
-接下来\ ``gettok``\ 得识别出标识符和特定的关键字，比如“\ ``def``\ ”。Kaleidoscope用下面的简单循环来达到目的：
+注意，由这段代码识别出的标识符，会被立即存入全局变量\ ``IdentifierStr``\ 。此外，语言的关键字也由这个循环负责识别，在此处一并处理。数值的识别过程与此类似：
 
-.. code-block:: cpp
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 44-53
+    :language: cpp
 
-    if (isalpha(LastChar)) { // identifier: [a-zA-Z][a-zA-Z0-9]*
-      IdentifierStr = LastChar;
-      while (isalnum((LastChar = getchar())))
-        IdentifierStr += LastChar;
+处理输入的代码十分直截了当。在输入中碰到代表数值的字符串时，我们利用C标准库中的\ ``strtod``\ 函数将之转换为数值并存入\ ``NumVal``\ 。注意这里缺少充分的错误检测：这段代码会错误地将“1.23.45.67”识别成“1.23”。至于要不要改，那就随便你了 :-) 。下面我们来处理注释：
 
-      if (IdentifierStr == "def") return tok_def;
-      if (IdentifierStr == "extern") return tok_extern;
-      return tok_identifier;
-    }
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 55-62
+    :language: cpp
 
-注意，这段代码一旦分析出一个标识符，就立即将至存入全局变量\ ``IdentifierStr``\ 中。同时，由于语言中的关键字也在同一个循环中识别，我们在此处一并处理。对数值的识别也类似：
+注释的处理很简单：直接跳过注释行并返回下一个语元即可。最后，如果输入与上述所有情况都不相符，那么它要么是个代表运算符的字符（比如“\ ``+``\ “），要么就是已经一路读到文件末尾了。这两种情况由以下代码负责处理：
 
-.. code-block:: cpp
+.. literalinclude:: _includes/chapter-2_full.cpp
+    :lines: 64-72
+    :language: cpp
 
-    if (isdigit(LastChar) || LastChar == '.') {   // Number: [0-9.]+
-      std::string NumStr;
-      do {
-        NumStr += LastChar;
-        LastChar = getchar();
-      } while (isdigit(LastChar) || LastChar == '.');
-
-      NumVal = strtod(NumStr.c_str(), 0);
-      return tok_number;
-    }
-
-这些处理输入的代码都很直截了当。当从输入中读到表征数值的字符串时，我们使用C的\ ``strtod``\ 函数将之转换为数值并存入\ ``NumVal``\ 。注意这里并没有做充分的错误检测：这段代码会错误地识别出“1.23.45.67”并将之当作“1.23”来处理。乐意的话请随意修改 :) 。下面我们来处理注释：
-
-.. code-block:: cpp
-
-    if (LastChar == '#') {
-      // Comment until end of line.
-      do LastChar = getchar();
-      while (LastChar != EOF && LastChar != '\n' && LastChar != '\r');
-
-      if (LastChar != EOF)
-        return gettok();
-    }
-
-我们直接跳过注释行并返回下一个标记。最后，如果输入与上述情况都不相符，则他要么是一个诸如“+”的运算符字符，要么就是已经抵达文件末尾。这种情况有下面的代码来处理：
-
-.. code-block:: cpp
-
-      // Check for end of file.  Don't eat the EOF.
-      if (LastChar == EOF)
-        return tok_eof;
-
-      // Otherwise, just return the character as its ascii value.
-      int ThisChar = LastChar;
-      LastChar = getchar();
-      return ThisChar;
-    }
-
-到此为止，我们已经拥有了Kaleidoscope语言的一个完整的词法分析器（词法分析器的\ :ref:`完整源码 <chapter-2-code>`\ 参见本教程的下一章）。接下来我们将\ :doc:`构建一个简单的语法分析器并借助它来构建抽象语法树 <chapter-2>`\ 。届时，我们还会包含一段驱动代码，这样您就能一并使用词法分析器和语法分析器了。
+至此，完整的Kaleidoscope词法分析器就完成了（\ :ref:`完整源码 <chapter-2_full-code>`\ 参见本教程的\ :doc:`下一章 <chapter-2>`\ ）。接下来，我们将\ :doc:`编写一个简单的语法分析器并利用它来构建抽象语法树 <chapter-2>`\ 。届时，我们还会再加上一段引导代码，令词法分析器和语法分析器珠联璧合。
 
 .. rubric:: 脚注
 
-.. [#] Kaleidoscope即“万花筒”。
+.. [#] 例如lex/yacc或flex/bison——译者注。
+.. [#] 这里指的是编译器或解释器的前端——译者注。
+.. [#] Kaleidoscope意即“万花筒”——译者注。
+.. [#] 原文中用的是define；但从上下文来看此处应该是函数原型声明，而非函数定义，故改译作“声明”——译者注。
+.. [#] 指函数A调用函数B，函数B又反过来调用函数A，从而形成递归调用的情况——译者注。
 
 .. vim:ft=rst ts=4 sw=4 et wrap
