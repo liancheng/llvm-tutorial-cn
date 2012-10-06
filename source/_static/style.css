@@ -1,4 +1,34 @@
 tt {
     background-color: inherit;
+}
+
+a.footnote-reference,
+tt {
     padding: 0 3px 0 3px;
+}
+
+a.reference>em {
+    font-style: inherit;
+}
+
+p:before {
+    content: "　　";
+}
+
+dd p.first:before,
+div.math p:before,
+.field-list p:before,
+li div.first p.compound-first:before,
+li p.first:before,
+p.admonition-title:before,
+p.biglink:before,
+p.caption:before,
+p.centered:before,
+p.compound-last:before,
+p.compound-middle:before,
+p.rubric:before,
+p.sidebar-title:before,
+p.topic-title:before,
+table.footnote p:before {
+    content: "";
 }
