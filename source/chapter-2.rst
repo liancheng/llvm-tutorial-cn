@@ -219,7 +219,7 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 
 .. compound::
 
-    下面来解析函数原型。在Kaleidoscope语言中，有两处会用到函数原型：一是“\ ``extern``\ ”函数申明，二是函数定义。相关代码很简单，没太大意思（相对于解析表达式的代码而言）：
+    下面来解析函数原型。在Kaleidoscope语言中，有两处会用到函数原型：一是“\ ``extern``\ ”函数声明，二是函数定义。相关代码很简单，没太大意思（相对于解析表达式的代码而言）：
 
     .. literalinclude:: _includes/chapter-2_full.cpp
         :language: cpp
@@ -231,7 +231,7 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
         :language: cpp
         :lines: 305-314
 
-    除了用于用户自定义函数的前置申明，“\ ``extern``\ ”语句还可以用来申明“\ ``sin``\ ”、“\ ``cos``\ ”等（C标准库）函数。这些“\ ``extern``\ ”语句不过就是些不带函数体的函数原型罢了：
+    除了用于用户自定义函数的前置声明，“\ ``extern``\ ”语句还可以用来声明“\ ``sin``\ ”、“\ ``cos``\ ”等（C标准库）函数。这些“\ ``extern``\ ”语句不过就是些不带函数体的函数原型罢了：
 
     .. literalinclude:: _includes/chapter-2_full.cpp
         :language: cpp
