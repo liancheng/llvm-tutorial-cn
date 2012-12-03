@@ -59,7 +59,7 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 
 .. compound::
 
-    开始构造AST之前，先要准备好用于构造AST的语法解析器。说白了，就是要利用语法解析器把“\ ``x+y``\ “这样的输入（由词法分析器返回的三个语元）分解成由下列代码生成的AST：
+    开始构造AST之前，先要准备好用于构造AST的语法解析器。说白了，就是要利用语法解析器把“\ ``x+y``\ ”这样的输入（由词法分析器返回的三个语元）分解成由下列代码生成的AST：
 
     .. literalinclude:: _includes/chapter-2_sample-1.cpp
         :language: cpp
@@ -250,7 +250,7 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 
 .. compound::
 
-    引导代码很简单，只需在最外层的循环中按当前语元的类型选定相应的解析函数就可以了。这段实在没什么可介绍的，我就单独把最外层循环贴出来好了。完整代码\ :ref:`参见下方 <chapter-2_full-code>`\ “Top-Level Parsing”那一段。
+    引导代码很简单，只需在最外层的循环中按当前语元的类型选定相应的解析函数就可以了。这段实在没什么可介绍的，我就单独把最外层循环贴出来好了。完整代码\ :ref:`参见下方 <chapter-2_full-code>`“Top-Level Parsing”那一段。
 
     .. literalinclude:: _includes/chapter-2_full.cpp
         :language: cpp

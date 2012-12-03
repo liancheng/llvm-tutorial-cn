@@ -5,7 +5,7 @@
 
 :原文:     `Implementing a Language with LLVM`__
 :作者:     `Chris Lattner <sabre@nondot.org>`_
-:译者:     `连城 <rhythm.mail@gmail.com>`_
+:译者:     `连城 <mailto:rhythm.mail@gmail.com>`_
 :许可协议: `署名 2.5 中国大陆许可协议`__\ （\ `全文`__\ ） |cc|
 
 .. |cc| image:: _static/img/cc.png
