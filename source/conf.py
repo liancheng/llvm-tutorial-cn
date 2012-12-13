@@ -81,7 +81,7 @@ exclude_patterns = ['_includes', '_themes']
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'perldoc'
+pygments_style = 'trac'
 
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
