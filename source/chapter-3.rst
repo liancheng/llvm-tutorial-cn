@@ -177,7 +177,7 @@ __ http://llvm.org/docs/LangRef.html
     :language: cpp
     :lines: 453-457
 
-现在该开始设置\ ``Builder``\ 对象了。第一行新建了一个\ `基本块`__\ 对象（名为“entry”），稍后该对象将被插入\ ``TheFunction``\ 。第二行告诉\ ``Builder``\ ，后续的新指令应该从刚刚新建的基本块的末尾处插入。LLVM的基本块是用于定义\ `控制流图（Control Flow Graph）`__\ 的重要部件。当前我们还不涉及到控制流，所以所有的函数都只有一个基本块。这个问题我们留到\ :ref:`第五章 <chapter-5>`\ 再改 :-)
+现在该开始设置\ ``Builder``\ 对象了。第一行新建了一个名为“entry”的\ `基本块`__\ 对象，稍后该对象将被插入\ ``TheFunction``\ 。第二行告诉\ ``Builder``\ ，后续的新指令应该插至刚刚新建的基本块的末尾处。LLVM基本块是用于定义\ `控制流图（Control Flow Graph）`__\ 的重要部件。当前我们还不涉及到控制流，所以所有的函数都只有一个基本块。这个问题我们留到\ :ref:`第五章 <chapter-5>`\ 再改 :-)
 
 .. literalinclude:: _includes/chapter-3_full.cpp
     :language: cpp
@@ -185,6 +185,8 @@ __ http://llvm.org/docs/LangRef.html
 
 __ http://en.wikipedia.org/wiki/Basic_block
 __ http://en.wikipedia.org/wiki/Control_flow_graph
+
+选好插入点后，调用函数主表达式的\ ``CodeGen()``\ 方法。不出意外的话，
 
 .. _chapter-3_full-code:
 
