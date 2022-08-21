@@ -113,7 +113,7 @@ __ http://en.wikipedia.org/wiki/Operator-precedence_parser
 
     .. literalinclude:: _includes/chapter-2_full.cpp
         :language: cpp
-        :lines: 172-198
+        :lines: 172-204
 
     该函数与其它函数的风格别无二致。（调用该函数时当前语元必须是\ ``tok_identifier``\ 。）前文提到的有关递归和错误处理的特点它统统具备。有意思的是这里采用了\ **预读**\ （lookahead）的手段来试探当前标识符的类型，判断它究竟是个独立的变量引用还是个函数调用。只要检查紧跟标识符之后的语元是不是“\ ``(``\ ”，它就能知道到底应该构造\ ``VariableExprAST``\ 节点还是\ ``CallExprAST``\ 节点。
 
